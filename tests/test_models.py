@@ -15,7 +15,7 @@ DATABASE_URI = os.getenv(
 ######################################################################
 #  R E C O M M E N D A T I O N S  M O D E L   T E S T   C A S E S
 ######################################################################
-class TestRecommendations(unittest.TestCase):
+class TestRecommendation(unittest.TestCase):
     """ Test Cases for Recommendations Model """
 
     @classmethod
@@ -25,7 +25,7 @@ class TestRecommendations(unittest.TestCase):
         app.config["DEBUG"] = False
         app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URI
         app.logger.setLevel(logging.CRITICAL)
-        Recommendations.init_db(app)
+        Recommendation.init_db(app)
 
     def setUp(self):
         """ This runs before each test """
