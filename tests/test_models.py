@@ -1,11 +1,11 @@
 """
-Test cases for Recommendations Model
+Test cases for Recommendation Model
 
 """
 import logging
 import unittest
 import os
-from service.models import Recommendations, DataValidationError, db
+from service.models import Recommendation, DataValidationError, db
 from service import app
 
 DATABASE_URI = os.getenv(

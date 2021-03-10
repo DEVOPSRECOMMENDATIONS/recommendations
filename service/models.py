@@ -1,5 +1,5 @@
 """
-Models for Recommendations
+Models for Recommendation
 
 All of the models are stored in this module
 """
@@ -16,7 +16,7 @@ class DataValidationError(Exception):
     pass
 
 
-class Recommendations(db.Model):
+class Recommendation(db.Model):
     """
     Class that represents a <your resource model name>
     """
@@ -31,11 +31,11 @@ class Recommendations(db.Model):
     
 
     def __repr__(self):
-        return "<Recommendations %r id=[%s]>" % (self.name, self.id)
+        return "<Recommendation %r id=[%s]>" % (self.name, self.id)
 
     def create(self):
         """
-        Creates a Recommendations to the database
+        Creates a Recommendation to the database
         """
         logger.info("Creating %s", self.name)
         self.id = None  # id must be none to generate next primary key
@@ -44,19 +44,19 @@ class Recommendations(db.Model):
 
     def save(self):
         """
-        Updates a Recommendations to the database
+        Updates a Recommendation to the database
         """
         logger.info("Saving %s", self.name)
         db.session.commit()
 
     def delete(self):
-        """ Removes a Recommendations from the data store """
+        """ Removes a Recommendation from the data store """
         logger.info("Deleting %s", self.name)
         db.session.delete(self)
         db.session.commit()
 
     def serialize(self):
-        """ Serializes a Recommendations into a dictionary """
+        """ Serializes a Recommendation into a dictionary """
         return {
             "id": self.id,
             "product_a": self.product_a,
@@ -66,7 +66,7 @@ class Recommendations(db.Model):
 
     def deserialize(self, data):
         """
-        Deserializes a Recommendations from a dictionary
+        Deserializes a Recommendation from a dictionary
 
         Args:
             data (dict): A dictionary containing the resource data
@@ -76,10 +76,10 @@ class Recommendations(db.Model):
             self.product_b = data["product_b"]
             self.recom_type = data["recom_type"]
         except KeyError as error:
-            raise DataValidationError("Invalid Recommendations: missing " + error.args[0])
+            raise DataValidationError("Invalid Recommendation: missing " + error.args[0])
         except TypeError as error:
             raise DataValidationError(
-                "Invalid Recommendations: body of request contained" "bad or no data"
+                "Invalid Recommendation: body of request contained" "bad or no data"
             )
         return self
 
@@ -95,28 +95,28 @@ class Recommendations(db.Model):
 
     @classmethod
     def all(cls):
-        """ Returns all of the Recommendationss in the database """
-        logger.info("Processing all Recommendationss")
+        """ Returns all of the Recommendations in the database """
+        logger.info("Processing all Recommendations")
         return cls.query.all()
 
     @classmethod
     def find(cls, by_id):
-        """ Finds a Recommendations by it's ID """
+        """ Finds a Recommendation by it's ID """
         logger.info("Processing lookup for id %s ...", by_id)
         return cls.query.get(by_id)
 
     @classmethod
     def find_or_404(cls, by_id):
-        """ Find a Recommendations by it's id """
+        """ Find a Recommendation by it's id """
         logger.info("Processing lookup or 404 for id %s ...", by_id)
         return cls.query.get_or_404(by_id)
 
     @classmethod
     def find_by_name(cls, name):
-        """ Returns all Recommendationss with the given name
+        """ Returns all Recommendations with the given name
 
         Args:
-            name (string): the name of the Recommendationss you want to match
+            name (string): the name of the Recommendations you want to match
         """
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name)
