@@ -1,5 +1,5 @@
 """
-Models for YourResourceModel
+Models for Recommendations
 
 All of the models are stored in this module
 """
@@ -16,7 +16,7 @@ class DataValidationError(Exception):
     pass
 
 
-class YourResourceModel(db.Model):
+class Recommendations(db.Model):
     """
     Class that represents a <your resource model name>
     """
@@ -25,14 +25,17 @@ class YourResourceModel(db.Model):
 
     # Table Schema
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(63))
+    product_a = db.Column(db.String(128), nullable=False)
+    product_b = db.Column(db.String(128), nullable=False)
+    recom_type = db.Column(db.String(1), nullable=False)
+    
 
     def __repr__(self):
-        return "<YourResourceModel %r id=[%s]>" % (self.name, self.id)
+        return "<Recommendations %r id=[%s]>" % (self.name, self.id)
 
     def create(self):
         """
-        Creates a YourResourceModel to the database
+        Creates a Recommendations to the database
         """
         logger.info("Creating %s", self.name)
         self.id = None  # id must be none to generate next primary key
@@ -41,38 +44,42 @@ class YourResourceModel(db.Model):
 
     def save(self):
         """
-        Updates a YourResourceModel to the database
+        Updates a Recommendations to the database
         """
         logger.info("Saving %s", self.name)
         db.session.commit()
 
     def delete(self):
-        """ Removes a YourResourceModel from the data store """
+        """ Removes a Recommendations from the data store """
         logger.info("Deleting %s", self.name)
         db.session.delete(self)
         db.session.commit()
 
     def serialize(self):
-        """ Serializes a YourResourceModel into a dictionary """
+        """ Serializes a Recommendations into a dictionary """
         return {
             "id": self.id,
-            "name": self.name
+            "product_a": self.product_a,
+            "product_b": self.product_b,
+            "recom_type": self.recom_type,
         }
 
     def deserialize(self, data):
         """
-        Deserializes a YourResourceModel from a dictionary
+        Deserializes a Recommendations from a dictionary
 
         Args:
             data (dict): A dictionary containing the resource data
         """
         try:
-            self.name = data["name"]
+            self.product_a = data["product_a"]
+            self.product_b = data["product_b"]
+            self.recom_type = data["recom_type"]
         except KeyError as error:
-            raise DataValidationError("Invalid YourResourceModel: missing " + error.args[0])
+            raise DataValidationError("Invalid Recommendations: missing " + error.args[0])
         except TypeError as error:
             raise DataValidationError(
-                "Invalid YourResourceModel: body of request contained" "bad or no data"
+                "Invalid Recommendations: body of request contained" "bad or no data"
             )
         return self
 
@@ -88,28 +95,28 @@ class YourResourceModel(db.Model):
 
     @classmethod
     def all(cls):
-        """ Returns all of the YourResourceModels in the database """
-        logger.info("Processing all YourResourceModels")
+        """ Returns all of the Recommendationss in the database """
+        logger.info("Processing all Recommendationss")
         return cls.query.all()
 
     @classmethod
     def find(cls, by_id):
-        """ Finds a YourResourceModel by it's ID """
+        """ Finds a Recommendations by it's ID """
         logger.info("Processing lookup for id %s ...", by_id)
         return cls.query.get(by_id)
 
     @classmethod
     def find_or_404(cls, by_id):
-        """ Find a YourResourceModel by it's id """
+        """ Find a Recommendations by it's id """
         logger.info("Processing lookup or 404 for id %s ...", by_id)
         return cls.query.get_or_404(by_id)
 
     @classmethod
     def find_by_name(cls, name):
-        """ Returns all YourResourceModels with the given name
+        """ Returns all Recommendationss with the given name
 
         Args:
-            name (string): the name of the YourResourceModels you want to match
+            name (string): the name of the Recommendationss you want to match
         """
         logger.info("Processing name query for %s ...", name)
         return cls.query.filter(cls.name == name)
