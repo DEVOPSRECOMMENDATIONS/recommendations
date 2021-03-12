@@ -31,13 +31,13 @@ class Recommendation(db.Model):
     
 
     def __repr__(self):
-        return "<Recommendation %r id=[%s]>" % (self.name, self.id)
+        return "<Recommendation %r id=[%s]>" % (self.product_a, self.id)
 
     def create(self):
         """
         Creates a Recommendation to the database
         """
-        logger.info("Creating %s", self.name)
+        logger.info("Creating %s", self.product_a)
         self.id = None  # id must be none to generate next primary key
         db.session.add(self)
         db.session.commit()
@@ -46,12 +46,12 @@ class Recommendation(db.Model):
         """
         Updates a Recommendation to the database
         """
-        logger.info("Saving %s", self.name)
+        logger.info("Saving %s", self.product_a)
         db.session.commit()
 
     def delete(self):
         """ Removes a Recommendation from the data store """
-        logger.info("Deleting %s", self.name)
+        logger.info("Deleting %s", self.product_a)
         db.session.delete(self)
         db.session.commit()
 

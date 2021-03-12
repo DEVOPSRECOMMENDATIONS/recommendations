@@ -37,10 +37,37 @@ class TestRecommendation(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
+    def _create_recommendation(self):
+        return Recommendation(
+            product_a="ProductA", 
+            product_b="ProductB", 
+            recom_type="U" 
+        )
 ######################################################################
 #  P L A C E   T E S T   C A S E S   H E R E 
 ######################################################################
 
-    def test_XXXX(self):
-        """ Test something """
-        self.assertTrue(True)
+    def test_create_a_recommendation(self):
+        """ Create a recommendation and assert that it exists """
+        recommendation = self._create_recommendation()
+        self.assertTrue(recommendation != None)
+        self.assertEqual(recommendation.id, None)
+        self.assertEqual(recommendation.product_a, "ProductA")
+        self.assertEqual(recommendation.product_b, "ProductB")
+        self.assertEqual(recommendation.recom_type, "U")
+
+
+    def test_add_a_recommendation(self):
+        """ Create a recommendation and add it to the database """
+        recommendations = Recommendation.all()
+        self.assertEqual(recommendations, [])
+
+        recommendation = self._create_recommendation()
+        
+        self.assertTrue(recommendation != None)
+        self.assertEqual(recommendation.id, None)
+        recommendation.create()
+        # Asert that it was assigned an id and shows up in the database
+        self.assertNotEqual(recommendation.id, None)
+        recommendations = Recommendation.all()
+        self.assertEqual(len(recommendations), 1)
