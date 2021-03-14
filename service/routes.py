@@ -124,6 +124,25 @@ def create_recommendation():
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
+######################################################################
+# UPDATE AN EXISTING RECOMMENDATION
+######################################################################
+@app.route("/recommendations/<int:recommendation_id>", methods=["PUT"])
+def update_recommendations(recommendation_id):
+    """
+    Update a Recommendation
+    This endpoint will update a Recommendation based the body that is posted
+    """
+    app.logger.info("Request to update recommendation with id: %s", recommendation_id)
+    check_content_type("application/json")
+    recommendation = Recommendation.find(recommendation_id)
+    if not recommendation:
+        raise NotFound("Recommendation with id '{}' was not found.".format(recommendation_id))
+    recommendation.deserialize(request.get_json())
+    recommendation.id = recommendation_id
+    recommendation.save()
+    return make_response(jsonify(recommendation.serialize()), status.HTTP_200_OK)
+
 
 
 ######################################################################

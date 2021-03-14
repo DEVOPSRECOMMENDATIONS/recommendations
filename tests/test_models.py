@@ -71,3 +71,23 @@ class TestRecommendation(unittest.TestCase):
         self.assertNotEqual(recommendation.id, None)
         recommendations = Recommendation.all()
         self.assertEqual(len(recommendations), 1)
+
+    def test_update_a_recommendation(self):
+        """ Update a Recommendation """
+        recommendation = self._create_recommendation()
+        logging.debug(recommendation)
+        recommendation.create()
+        logging.debug(recommendation)
+        self.assertEqual(recommendation.id, 1)
+        # Change it an save it
+        recommendation.product_b = "shoes"
+        original_id = recommendation.id
+        recommendation.save()
+        self.assertEqual(recommendation.id, original_id)
+        self.assertEqual(recommendation.product_b, "shoes")
+        # Fetch it back and make sure the id hasn't changed
+        # but the data did change
+        recommendations = Recommendation.all()
+        self.assertEqual(len(recommendations), 1)
+        self.assertEqual(recommendations[0].id, 1)
+        self.assertEqual(recommendations[0].product_b, "shoes")

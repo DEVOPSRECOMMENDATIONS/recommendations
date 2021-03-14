@@ -88,3 +88,25 @@ class TestRecommendationServer(TestCase):
         # self.assertEqual(new_recommendation["product_a"], test_recommendation.product_a)
         # self.assertEqual(new_recommendation["product_b"], test_recommendation.product_b)
         # self.assertEqual(new_recommendation["recom_type"], test_recommendation.recom_type)
+
+    def test_update_recommendation(self):
+        """ Update an existing Recommendation """
+        # create a recommendation to update
+        test_recommendation = self._create_recommendation()
+        resp = self.app.post(
+            "/recommendations", json=test_recommendation.serialize(), content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # update the recommendation
+        new_recommendation = resp.get_json()
+        logging.debug(new_recommendation)
+        new_recommendation["product_a"] = "gloves"
+        resp = self.app.put(
+            "/recommendations/{}".format(new_recommendation["id"]),
+            json=new_recommendation,
+            content_type="application/json",
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_recommendation = resp.get_json()
+        self.assertEqual(updated_recommendation["product_a"], "gloves")
