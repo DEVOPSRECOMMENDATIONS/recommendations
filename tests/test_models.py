@@ -5,6 +5,7 @@ Test cases for Recommendation Model
 import logging
 import unittest
 import os
+from .factories import RecommendationFactorty
 from service.models import Recommendation, DataValidationError, db
 from service import app
 
@@ -80,7 +81,7 @@ class TestRecommendation(unittest.TestCase):
 
     def test_update_a_recommendation(self):
         """ Update a Recommendation """
-        recommendation = self._create_recommendation()
+        recommendation = RecommendationFactorty()
         logging.debug(recommendation)
         recommendation.create()
         logging.debug(recommendation)
