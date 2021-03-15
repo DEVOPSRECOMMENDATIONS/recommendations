@@ -9,6 +9,7 @@ import sys
 import logging
 from flask import Flask, jsonify, request, url_for, make_response, abort
 from flask_api import status  # HTTP Status Codes
+from werkzeug.exceptions import NotFound
 
 # For this example we'll use SQLAlchemy, a popular ORM that supports a
 # variety of backends including SQLite, MySQL, and PostgreSQL
@@ -124,6 +125,8 @@ def create_recommendation():
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
+
+    
 ######################################################################
 # UPDATE AN EXISTING RECOMMENDATION
 ######################################################################
@@ -143,6 +146,21 @@ def update_recommendations(recommendation_id):
     recommendation.save()
     return make_response(jsonify(recommendation.serialize()), status.HTTP_200_OK)
 
+
+######################################################################
+# RETRIEVE / FIND / GET A RECOMMENDATION
+######################################################################
+@app.route("/recommendations/<int:recommendation_id>", methods=["GET"])
+def get_recommendations(recommendation_id):
+    """
+    Retrieve a single Recommendation
+    This endpoint will return a Recommendation based on it's id
+    """
+    app.logger.info("Request for recommendation with id: %s", recommendation_id)
+    recommendation = Recommendation.find(recommendation_id)
+    if not recommendation:
+        raise NotFound("Recommendation with id '{}' was not found.".format(recommendation_id))
+    return make_response(jsonify(recommendation.serialize()), status.HTTP_200_OK)
 
 
 ######################################################################
