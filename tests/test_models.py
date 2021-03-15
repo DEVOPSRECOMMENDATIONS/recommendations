@@ -72,6 +72,12 @@ class TestRecommendation(unittest.TestCase):
         recommendations = Recommendation.all()
         self.assertEqual(len(recommendations), 1)
 
+    def test_deserialize_bad_data(self):
+        """ Test deserialization of bad data """
+        data = "this is not a dictionary"
+        recommendation = Recommendation()
+        self.assertRaises(DataValidationError, recommendation.deserialize, data)       
+
     def test_update_a_recommendation(self):
         """ Update a Recommendation """
         recommendation = self._create_recommendation()
