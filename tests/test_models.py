@@ -8,6 +8,7 @@ import os
 from .factories import RecommendationFactorty
 from service.models import Recommendation, DataValidationError, db
 from service import app
+from werkzeug.exceptions import NotFound
 
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgres://postgres:postgres@localhost:5432/postgres"
@@ -98,3 +99,36 @@ class TestRecommendation(unittest.TestCase):
         self.assertEqual(len(recommendations), 1)
         self.assertEqual(recommendations[0].id, 1)
         self.assertEqual(recommendations[0].product_b, "shoes")
+
+    def test_find_recommendation(self):
+        """ Find a Recommendation by ID """
+        recommendations = RecommendationFactorty.create_batch(3)
+        for recommendation in recommendations:
+            recommendation.create()
+        logging.debug(recommendations)
+        # make sure they got saved
+        self.assertEqual(len(Recommendation.all()), 3)
+        # find the 2nd recommendation in the list
+        recommendation = Recommendation.find(recommendations[1].id)
+        self.assertIsNot(recommendation, None)
+        self.assertEqual(recommendation.id, recommendations[1].id)
+        self.assertEqual(recommendation.product_a, recommendations[1].product_a)
+        self.assertEqual(recommendation.product_b, recommendations[1].product_b)
+        self.assertEqual(recommendation.recom_type, recommendations[1].recom_type)
+
+    def test_find_or_404_found(self):
+        """ Find or return 404 found """
+        recommendations = RecommendationFactorty.create_batch(3)
+        for recommendation in recommendations:
+            recommendation.create()
+
+        recommendation = Recommendation.find_or_404(recommendations[1].id)
+        self.assertIsNot(recommendation, None)
+        self.assertEqual(recommendation.id, recommendations[1].id)
+        self.assertEqual(recommendation.product_a, recommendations[1].product_a)
+        self.assertEqual(recommendation.product_b, recommendations[1].product_b)
+        self.assertEqual(recommendation.recom_type, recommendations[1].recom_type)
+
+    def test_find_or_404_not_found(self):
+        """ Find or return 404 NOT found """
+        self.assertRaises(NotFound, Recommendation.find_or_404, 0)

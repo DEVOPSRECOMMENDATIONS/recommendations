@@ -110,3 +110,22 @@ class TestRecommendationServer(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         updated_recommendation = resp.get_json()
         self.assertEqual(updated_recommendation["product_a"], "gloves")
+
+    def test_get_recommendation(self):
+        """ Get a single Recommendation """
+        # get the id of a recommendation
+        test_recommendation = self._create_recommendation()
+        test_recommendation.create()
+        resp = self.app.get(
+            "/recommendations/{}".format(test_recommendation.id), content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(data["product_a"], test_recommendation.product_a)
+        self.assertEqual(data["product_b"], test_recommendation.product_b)
+        self.assertEqual(data["recom_type"], test_recommendation.recom_type)
+
+    def test_get_recommendation_not_found(self):
+        """ Get a Recommendation thats not found """
+        resp = self.app.get("/recommendations/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
