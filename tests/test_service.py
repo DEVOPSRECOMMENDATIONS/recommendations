@@ -114,6 +114,7 @@ class TestRecommendationServer(TestCase):
     def test_delete_recommendation(self):
         """ Delete a Recommendation """
         test_recommendation = self._create_recommendation()
+        test_recommendation.create()
         resp = self.app.delete(
             "/recommendations/{}".format(test_recommendation.id), content_type="application/json"
         )
