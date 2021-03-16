@@ -111,6 +111,20 @@ class TestRecommendationServer(TestCase):
         updated_recommendation = resp.get_json()
         self.assertEqual(updated_recommendation["product_a"], "gloves")
 
+    def test_delete_recommendation(self):
+        """ Delete a Recommendation """
+        test_recommendation = self._create_recommendation()
+        resp = self.app.delete(
+            "/recommendations/{}".format(test_recommendation.id), content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(resp.data), 0)
+        # make sure they are deleted
+        resp = self.app.get(
+            "/recommendations/{}".format(test_recommendation.id), content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_get_recommendation(self):
         """ Get a single Recommendation """
         # get the id of a recommendation

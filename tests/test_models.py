@@ -5,7 +5,7 @@ Test cases for Recommendation Model
 import logging
 import unittest
 import os
-from .factories import RecommendationFactorty
+from .factories import RecommendationFactory
 from service.models import Recommendation, DataValidationError, db
 from service import app
 from werkzeug.exceptions import NotFound
@@ -82,7 +82,7 @@ class TestRecommendation(unittest.TestCase):
 
     def test_update_a_recommendation(self):
         """ Update a Recommendation """
-        recommendation = RecommendationFactorty()
+        recommendation = RecommendationFactory()
         logging.debug(recommendation)
         recommendation.create()
         logging.debug(recommendation)
@@ -100,9 +100,19 @@ class TestRecommendation(unittest.TestCase):
         self.assertEqual(recommendations[0].id, 1)
         self.assertEqual(recommendations[0].product_b, "shoes")
 
+    def test_delete_a_recommendation(self):
+        """ Delete a Recommendation """
+        recommendation = RecommendationFactory()
+        logging.debug(recommendation)
+        recommendation.create()
+        self.assertEqual(len(Recommendation.all()), 1)
+        # delete the recommendation  and make sure it isn't in the database
+        recommendation.delete()
+        self.assertEqual(len(Recommendation.all()), 0)
+
     def test_find_recommendation(self):
         """ Find a Recommendation by ID """
-        recommendations = RecommendationFactorty.create_batch(3)
+        recommendations = RecommendationFactory.create_batch(3)
         for recommendation in recommendations:
             recommendation.create()
         logging.debug(recommendations)
@@ -118,7 +128,7 @@ class TestRecommendation(unittest.TestCase):
 
     def test_find_or_404_found(self):
         """ Find or return 404 found """
-        recommendations = RecommendationFactorty.create_batch(3)
+        recommendations = RecommendationFactory.create_batch(3)
         for recommendation in recommendations:
             recommendation.create()
 

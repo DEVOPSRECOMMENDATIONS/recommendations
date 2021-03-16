@@ -6,8 +6,8 @@ from factory.fuzzy import FuzzyChoice
 from service.models import Recommendation
 
 
-class RecommendationFactorty(factory.Factory):
-    """ Creates fake pets that you don't have to feed """
+class RecommendationFactory(factory.Factory):
+    """ Creates fake recommendations that you don't have to feed """
 
     class Meta:
         model = Recommendation

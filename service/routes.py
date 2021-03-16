@@ -146,6 +146,20 @@ def update_recommendations(recommendation_id):
     recommendation.save()
     return make_response(jsonify(recommendation.serialize()), status.HTTP_200_OK)
 
+######################################################################
+# DELETE AN EXISTING RECOMMENDATION
+######################################################################
+@app.route("/recommendations/<int:recommendation_id>", methods=["DELETE"])
+def delete_recommendations(recommendation_id):
+    """
+    Delete a Recommendation
+    This endpoint will delete a Recommendation based the id specified in the path
+    """
+    app.logger.info("Request to delete recommendation with id: %s", recommendation_id)
+    recommendation = Recommendation.find(recommendation_id)
+    if recommendation:
+        recommendation.delete()
+    return make_response("", status.HTTP_204_NO_CONTENT)
 
 ######################################################################
 # RETRIEVE / FIND / GET A RECOMMENDATION
