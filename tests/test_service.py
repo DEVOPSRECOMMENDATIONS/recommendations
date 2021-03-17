@@ -10,10 +10,9 @@ import logging
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 from flask_api import status  # HTTP Status Codes
-from service.models import db, Recommendation
 from service.routes import app, init_db
 from .factories import RecommendationFactory
-
+from service.models import db, Recommendation, DataValidationError
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgres://postgres:postgres@localhost:5432/postgres"
 )
@@ -155,3 +154,23 @@ class TestRecommendationServer(TestCase):
         """ Get a Recommendation thats not found """
         resp = self.app.get("/recommendations/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_deserialize_missing_data(self):
+        """ Test deserialization of a Reommendation """
+        data = {"id": 1, "product_a:":"shoes", "product_b":"belts", "recom_type":"A"}
+        recommendation = Recommendation()
+        self.assertRaises(DataValidationError, recommendation.deserialize, data)
+
+    def test_deserialize_bad_data(self):
+        """ Test deserialization of bad data """
+        data = "this is not a dictionary"
+        recommendation = Recommendation()
+        self.assertRaises(DataValidationError, recommendation.deserialize, data)
+        
+    def test_create_recommendation_no_content_type(self):
+        """ Create a new Recommendation without content type """
+        test_recommendation = RecommendationFactory()
+        resp = self.app.post('/recommendations',
+                             json=test_recommendation.serialize(),
+                             content_type="bad content")
+        self.assertEqual(resp.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
