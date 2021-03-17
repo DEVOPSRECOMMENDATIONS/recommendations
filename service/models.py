@@ -112,11 +112,11 @@ class Recommendation(db.Model):
         return cls.query.get_or_404(by_id)
 
     @classmethod
-    def find_by_name(cls, name):
-        """ Returns all Recommendations with the given name
+    def find_by_name(cls, product_a):
+        """ Returns all Recommendations with the given Product Name (product a)
 
         Args:
-            name (string): the name of the Recommendations you want to match
+            name (string): the Product A of the Recommendations you want to match
         """
-        logger.info("Processing name query for %s ...", name)
-        return cls.query.filter(cls.name == name)
+        logger.info("Processing Product A query for %s ...", product_a)
+        return cls.query.filter(cls.product_a == product_a)

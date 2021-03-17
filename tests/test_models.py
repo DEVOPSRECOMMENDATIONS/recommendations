@@ -142,3 +142,12 @@ class TestRecommendation(unittest.TestCase):
     def test_find_or_404_not_found(self):
         """ Find or return 404 NOT found """
         self.assertRaises(NotFound, Recommendation.find_or_404, 0)
+
+    def test_find_by_name(self):
+        """ Find a Recommendation by Product Name A"""
+        Recommendation(product_a="shoes", product_b="belts", recom_type="A").create()
+        Recommendation(product_a="gloves", product_b="skirts", recom_type="B").create()
+        recommendations = Recommendation.find_by_name("shoes")
+        self.assertEqual(recommendations[0].product_a, "shoes")
+        self.assertEqual(recommendations[0].product_b, "belts")
+        self.assertEqual(recommendations[0].recom_type, "A")
