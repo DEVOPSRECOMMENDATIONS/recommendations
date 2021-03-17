@@ -12,6 +12,7 @@ from unittest.mock import MagicMock, patch
 from flask_api import status  # HTTP Status Codes
 from service.models import db, Recommendation
 from service.routes import app, init_db
+from .factories import RecommendationFactory
 
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgres://postgres:postgres@localhost:5432/postgres"
@@ -88,6 +89,16 @@ class TestRecommendationServer(TestCase):
         # self.assertEqual(new_recommendation["product_a"], test_recommendation.product_a)
         # self.assertEqual(new_recommendation["product_b"], test_recommendation.product_b)
         # self.assertEqual(new_recommendation["recom_type"], test_recommendation.recom_type)
+
+    def test_list_recommendation(self):
+        """ Get a list of Recommendations """
+        recommendation = RecommendationFactory()
+        logging.debug(recommendation)
+        recommendation.create()
+        resp = self.app.get("/recommendations")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), 1)
 
     def test_update_recommendation(self):
         """ Update an existing Recommendation """
