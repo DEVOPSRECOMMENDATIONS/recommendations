@@ -11,8 +11,8 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 from flask_api import status  # HTTP Status Codes
 from service.routes import app, init_db
+from .factories import RecommendationFactory
 from service.models import db, Recommendation, DataValidationError
-
 DATABASE_URI = os.getenv(
     "DATABASE_URI", "postgres://postgres:postgres@localhost:5432/postgres"
 )
@@ -89,6 +89,16 @@ class TestRecommendationServer(TestCase):
         # self.assertEqual(new_recommendation["product_b"], test_recommendation.product_b)
         # self.assertEqual(new_recommendation["recom_type"], test_recommendation.recom_type)
 
+    def test_list_recommendation(self):
+        """ Get a list of Recommendations """
+        recommendation = RecommendationFactory()
+        logging.debug(recommendation)
+        recommendation.create()
+        resp = self.app.get("/recommendations")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), 1)
+
     def test_update_recommendation(self):
         """ Update an existing Recommendation """
         # create a recommendation to update
@@ -156,4 +166,11 @@ class TestRecommendationServer(TestCase):
         data = "this is not a dictionary"
         recommendation = Recommendation()
         self.assertRaises(DataValidationError, recommendation.deserialize, data)
-
+        
+    def test_create_recommendation_no_content_type(self):
+        """ Create a new Recommendation without content type """
+        test_recommendation = RecommendationFactory()
+        resp = self.app.post('/recommendations',
+                             json=test_recommendation.serialize(),
+                             content_type="bad content")
+        self.assertEqual(resp.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)

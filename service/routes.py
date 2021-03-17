@@ -126,6 +126,17 @@ def create_recommendation():
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
 
+######################################################################
+# LIST ALL RECOMMENDATIONS
+######################################################################
+@app.route("/recommendations", methods=["GET"])
+def list_recommendations():
+    """ Returns all of the Recommendations """
+    app.logger.info("Request for Recommendation list")
+    recommendations = Recommendation.all()
+    results = [recommendations.serialize() for recommendations in recommendations]
+    return make_response(jsonify(results), status.HTTP_200_OK)
+
     
 ######################################################################
 # UPDATE AN EXISTING RECOMMENDATION
