@@ -113,7 +113,7 @@ class Recommendation(db.Model):
 
     @classmethod
     def find_by_name(cls, product_a):
-        """ Returns all Recommendations with the given Product Name (product a)
+        """ Returns a Recommendation with the given Product Name (product a)
 
         Args:
             name (string): the Product A of the Recommendations you want to match
