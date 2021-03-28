@@ -120,7 +120,7 @@ def create_recommendation():
     recommendation.deserialize(request.get_json())
     recommendation.create()
     message = recommendation.serialize()
-    #location_url = url_for("get_recommendations", recommendation_id=recommendation.id, _external=True)
+    location_url = url_for("get_recommendations", recommendation_id=recommendation.id, _external=True)
     location_url = "not implemented"
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
