@@ -1,6 +1,6 @@
-nyu-travis-ci
+travis-ci
 [![Build Status](https://travis-ci.com/DEVOPSRECOMMENDATIONS/recommendations.svg?branch=main)](https://travis-ci.com/DEVOPSRECOMMENDATIONS/recommendations)
-[![Codecov](https://img.shields.io/codecov/c/github/nyu-devops/lab-travis-ci.svg)]()
+[![codecov](https://codecov.io/gh/DEVOPSRECOMMENDATIONS/recommendations/branch/main/graph/badge.svg?token=FMP5LMU05L)](https://codecov.io/gh/DEVOPSRECOMMENDATIONS/recommendations)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # Introduction
