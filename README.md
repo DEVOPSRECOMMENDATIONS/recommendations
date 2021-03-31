@@ -1,4 +1,9 @@
-# project-template
+nyu-travis-ci
+[![Build Status](https://travis-ci.com/DEVOPSRECOMMENDATIONS/recommendations.svg?branch=main)](https://travis-ci.com/DEVOPSRECOMMENDATIONS/recommendations)
+[![Codecov](https://img.shields.io/codecov/c/github/nyu-devops/lab-travis-ci.svg)]()
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+# Introduction
 
 This is code handling recommendations for the online platform
 
