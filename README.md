@@ -1,3 +1,6 @@
+# travis-ci
+[![Build Status](https://travis-ci.com/DEVOPSRECOMMENDATIONS/recommendations.svg?branch=main)](https://travis-ci.com/DEVOPSRECOMMENDATIONS/recommendations)
+
 # project-template
 
 This is code handling recommendations for the online platform
