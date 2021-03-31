@@ -103,7 +103,15 @@ def internal_server_error(error):
 @app.route("/")
 def index():
     """ Root URL response """
-    return "Reminder: return some useful information in json format about the service here", status.HTTP_200_OK
+    app.logger.info("Request for Root URL")
+    return (
+        jsonify(
+            name="Recommendation Demo REST API Service",
+            version="1.0",
+            paths=url_for("list_recommendations", _external=True),
+        ),
+        status.HTTP_200_OK,
+    )
 
 ######################################################################
 # CREATE A NEW RECOMMENDATION
@@ -121,7 +129,6 @@ def create_recommendation():
     recommendation.create()
     message = recommendation.serialize()
     location_url = url_for("get_recommendations", recommendation_id=recommendation.id, _external=True)
-    location_url = "not implemented"
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
