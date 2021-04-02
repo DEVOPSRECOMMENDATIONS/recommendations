@@ -112,11 +112,50 @@ class Recommendation(db.Model):
         return cls.query.get_or_404(by_id)
 
     @classmethod
-    def find_by_name(cls, product_a):
+    def find_by_product_a(cls, product_a):
         """ Returns a Recommendation with the given Product Name (product a)
 
         Args:
-            name (string): the Product A of the Recommendations you want to match
+            product_a (string): the Product_a of the Recommendations you want to match
         """
         logger.info("Processing Product A query for %s ...", product_a)
         return cls.query.filter(cls.product_a == product_a)
+
+    @classmethod
+    def find_by_product_b(cls, product_b):
+        """ Returns a Recommendation with the given Product Name (product b)
+
+        Args:
+            product_b (string): the Product_b of the Recommendations you want to match
+        """
+        logger.info("Processing Product_A query for %s ...", product_b)
+        return cls.query.filter(cls.product_b == product_b)
+
+    @classmethod
+    def find_by_recommendation_type(cls, recom_type):
+        """ Returns the list of Recommendations that has a certain Recommendations_Type
+        Args:
+            recom_type (string): the Recommendations Type a prodcut
+        """
+        logger.info("Processing Recommendations Type query for %s ...", recom_type)
+        return cls.query.filter(cls.recom_type == recom_type)
+
+    @classmethod
+    def find_by_recommendation_type_and_product_a(cls, recom_type, product_a):
+        """ Returns the list of Recommendations that has a certain Recommendations_Type
+        Args:
+            recom_type (string): the Recommendations Type a prodcut
+            product_b (string): the Product_a of the Recommendations you want to match
+        """
+        logger.info("Processing Recommendations Type query for %s ...", recom_type)
+        return cls.query.filter(cls.recom_type == recom_type , cls.product_a == product_a)
+
+    @classmethod
+    def find_by_recommendation_type_and_product_b(cls, recom_type, product_b):
+        """ Returns the list of Recommendations that has a certain Recommendations_Type
+        Args:
+            recom_type (string): the Recommendations Type a prodcut
+            product_b (string): the Product_B of the Recommendations you want to match
+        """
+        logger.info("Processing Recommendations Type query for %s ...", recom_type)
+        return cls.query.filter(cls.recom_type == recom_type , cls.product_b == product_b)
