@@ -146,8 +146,8 @@ class TestRecommendation(unittest.TestCase):
     def test_find_by_product_a(self):
         """ Find a Recommendation by Product Name A"""
         Recommendation(product_a="shoes", product_b="belts", recom_type="A").create()
-        Recommendation(product_a="shoes", product_b="skirts", recom_type="B").create()
-        Recommendation(product_a="shoes", product_b="gloves", recom_type="B").create()
+        Recommendation(product_a="shoes", product_b="skirts", recom_type="C").create()
+        Recommendation(product_a="shoes", product_b="gloves", recom_type="C").create()
         recommendations = Recommendation.find_by_product_a("shoes")
         recommendation_list = [recommendation for recommendation in recommendations]
         self.assertEqual(len(recommendation_list), 3)
@@ -155,8 +155,8 @@ class TestRecommendation(unittest.TestCase):
     def test_find_by_product_b(self):
         """ Find a Recommendation by Product Name B"""
         Recommendation(product_a="shirts", product_b="shirts", recom_type="A").create()
-        Recommendation(product_a="shoes", product_b="skirts", recom_type="B").create()
-        Recommendation(product_a="shoes", product_b="gloves", recom_type="B").create()
+        Recommendation(product_a="shoes", product_b="skirts", recom_type="U").create()
+        Recommendation(product_a="shoes", product_b="gloves", recom_type="U").create()
         recommendations = Recommendation.find_by_product_b("shirts")
         recommendation_list = [recommendation for recommendation in recommendations]
         self.assertEqual(len(recommendation_list), 1)
@@ -173,17 +173,17 @@ class TestRecommendation(unittest.TestCase):
     def test_find_by_recommendation_type_and_product_a(self):
         """ Find Recommendations by Recommendation Type and Product A"""
         Recommendation(product_a="shoes", product_b="belts", recom_type="A").create()
-        Recommendation(product_a="skirts", product_b="shoes", recom_type="B").create()
-        Recommendation(product_a="pants", product_b="belts", recom_type="B").create()
-        recommendations = Recommendation.find_by_recommendation_type_and_product_a("B","pants")
+        Recommendation(product_a="skirts", product_b="shoes", recom_type="U").create()
+        Recommendation(product_a="pants", product_b="belts", recom_type="U").create()
+        recommendations = Recommendation.find_by_recommendation_type_and_product_a("U","pants")
         recommendation_list = [recommendation for recommendation in recommendations]
         self.assertEqual(len(recommendation_list), 1)
 
     def test_find_by_recommendation_type_and_product_b(self):
         """ Find Recommendations by Recommendation Type and Product B"""
-        Recommendation(product_a="skirts", product_b="belts", recom_type="B").create()
-        Recommendation(product_a="gloves", product_b="belts", recom_type="B").create()
-        Recommendation(product_a="shirt", product_b="belts", recom_type="B").create()
-        recommendations = Recommendation.find_by_recommendation_type_and_product_b("B","belts")
+        Recommendation(product_a="skirts", product_b="belts", recom_type="C").create()
+        Recommendation(product_a="gloves", product_b="belts", recom_type="C").create()
+        Recommendation(product_a="shirt", product_b="belts", recom_type="C").create()
+        recommendations = Recommendation.find_by_recommendation_type_and_product_b("C","belts")
         recommendation_list = [recommendation for recommendation in recommendations]
         self.assertEqual(len(recommendation_list), 3)
