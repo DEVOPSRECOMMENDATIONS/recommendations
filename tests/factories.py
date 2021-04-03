@@ -15,4 +15,4 @@ class RecommendationFactory(factory.Factory):
     id = factory.Sequence(lambda n: n)
     product_a = FuzzyChoice(choices=["gloves", "shoes", "hats", "belts"])
     product_b = FuzzyChoice(choices=["socks", "pants", "skirts", "dresses"])
-    recom_type = FuzzyChoice(choices=["A", "B", "C"])
+    recom_type = FuzzyChoice(choices=["A", "U", "C"])
