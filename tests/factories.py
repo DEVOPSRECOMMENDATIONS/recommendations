@@ -16,3 +16,4 @@ class RecommendationFactory(factory.Factory):
     product_a = FuzzyChoice(choices=["gloves", "shoes", "hats", "belts"])
     product_b = FuzzyChoice(choices=["socks", "pants", "skirts", "dresses"])
     recom_type = FuzzyChoice(choices=["A", "B", "C"])
+    likes = FuzzyChoice(choices=[0,5,10])

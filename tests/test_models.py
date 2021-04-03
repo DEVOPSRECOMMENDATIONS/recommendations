@@ -43,8 +43,10 @@ class TestRecommendation(unittest.TestCase):
         return Recommendation(
             product_a="ProductA", 
             product_b="ProductB", 
-            recom_type="U" 
+            recom_type="U",
+            likes=0
         )
+
 ######################################################################
 #  P L A C E   T E S T   C A S E S   H E R E 
 ######################################################################
@@ -57,6 +59,7 @@ class TestRecommendation(unittest.TestCase):
         self.assertEqual(recommendation.product_a, "ProductA")
         self.assertEqual(recommendation.product_b, "ProductB")
         self.assertEqual(recommendation.recom_type, "U")
+        self.assertEqual(recommendation.likes, 0)
 
 
     def test_add_a_recommendation(self):

@@ -47,7 +47,8 @@ class TestRecommendationServer(TestCase):
         return Recommendation(
             product_a="ProductA", 
             product_b="ProductB", 
-            recom_type="U" 
+            recom_type="U", 
+            likes=0
         )
 
 ######################################################################
@@ -149,6 +150,34 @@ class TestRecommendationServer(TestCase):
         self.assertEqual(data["product_a"], test_recommendation.product_a)
         self.assertEqual(data["product_b"], test_recommendation.product_b)
         self.assertEqual(data["recom_type"], test_recommendation.recom_type)
+
+
+
+    def test_like_recommendation(self):
+        """ Like a Recommendation """
+        # create a recommendation to like
+        test_recommendation = self._create_recommendation()
+        resp = self.app.post(
+            "/recommendations", json=test_recommendation.serialize(), content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        
+        # like the recommendation
+        new_recommendation = resp.get_json()
+        logging.debug(new_recommendation)
+        self.assertEqual(new_recommendation["likes"], 0)
+        resp = self.app.put(
+            "/recommendations/{}/like".format(new_recommendation["id"]),
+            content_type="application/json",
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        likes_count = resp.get_json()
+        logging.debug(likes_count)
+        self.assertEqual(likes_count["likes"], 1)
+
+
+
+
 
     def test_get_recommendation_not_found(self):
         """ Get a Recommendation thats not found """
