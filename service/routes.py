@@ -195,6 +195,24 @@ def get_recommendations(recommendation_id):
     return make_response(jsonify(recommendation.serialize()), status.HTTP_200_OK)
 
 
+
+######################################################################
+# LIKE A RECOMMENDATION
+######################################################################
+
+@app.route("/recommendations/<int:recommendation_id>/like", methods=["PUT"])
+def like_recommendation(recommendation_id):
+    """Tracks how many times a particular recommendation ID is liked"""
+    recommendation = Recommendation.find(recommendation_id)
+    if not recommendation:
+        abort(status.HTTP_404_NOT_FOUND, "Recommendation with id '{}' was not found.".format(recommendation_id))
+    recommendation.likes += 1
+    recommendation.save()
+    return jsonify(likes=recommendation.likes), status.HTTP_200_OK
+
+
+
+
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################

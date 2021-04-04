@@ -28,6 +28,7 @@ class Recommendation(db.Model):
     product_a = db.Column(db.String(128), nullable=False)
     product_b = db.Column(db.String(128), nullable=False)
     recom_type = db.Column(db.String(1), nullable=False)
+    likes = db.Column(db.Integer)
     
 
     def __repr__(self):
@@ -62,6 +63,7 @@ class Recommendation(db.Model):
             "product_a": self.product_a,
             "product_b": self.product_b,
             "recom_type": self.recom_type,
+            "likes": self.likes
         }
 
     def deserialize(self, data):
@@ -75,6 +77,7 @@ class Recommendation(db.Model):
             self.product_a = data["product_a"]
             self.product_b = data["product_b"]
             self.recom_type = data["recom_type"]
+            self.likes = int(data["likes"])
         except KeyError as error:
             raise DataValidationError("Invalid Recommendation: missing " + error.args[0])
         except TypeError as error:
