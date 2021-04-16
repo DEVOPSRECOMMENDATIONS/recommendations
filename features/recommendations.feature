@@ -22,6 +22,7 @@ Scenario: Create a Recommendation
     And I set "Product_A" to "Gloves"
     And I set "Product_B" to "Skirts"
     And I set "Recom_type" to "U"
+    And I set "Likes" to "1"
     And I press the "Create" button
     Then I should see the message "Success"
     When I copy the "Id" field
@@ -36,4 +37,4 @@ Scenario: Create a Recommendation
     Then I should see "Gloves" in the "Product_A" field
     And I should see "Skirts" in the "Product_B" field
     And I should see "U" in the "Recom_Type" field
-    And I should see "0" in the "Likes" field
+    And I should see "1" in the "Likes" field

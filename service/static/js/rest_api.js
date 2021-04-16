@@ -6,7 +6,7 @@
 
     // Updates the form with data from the response
     function update_form_data(res) {
-        $("#recomm_id").val(res.id);
+        $("#id").val(res.id);
         $("#product_a").val(res.product_a);
         $("#product_b").val(res.product_b);
         $("#recom_type").val(res.recom_type);
@@ -42,7 +42,7 @@
             "product_a": product_a,
             "product_b": product_b,
             "recom_type": recom_type,
-            "likes": likes
+            "likes": parseInt(likes)
         };
 
         var ajax = $.ajax({
@@ -69,7 +69,7 @@
 
     $("#update-btn").click(function () {
 
-        var recomm_id = $("#recomm_id").val();
+        var recomm_id = $("#id").val();
         var product_a = $("#product_a").val();
         var product_b = $("#product_b").val();
         var recom_type = $("#recom_type").val();
@@ -106,10 +106,10 @@
 
     $("#retrieve-btn").click(function () {
 
-        var id = $("#recomm_id").val();
+        var id = $("#id").val();
         var ajax = $.ajax({
             type: "GET",
-            url: "/recommendations/" + recomm_id,
+            url: "/recommendations/" + id,
             contentType: "application/json",
             data: ''
         })
@@ -133,11 +133,11 @@
 
     $("#delete-btn").click(function () {
 
-        var id = $("#recomm_id").val();
+        var id = $("#id").val();
 
         var ajax = $.ajax({
             type: "DELETE",
-            url: "/recommendations/" + recomm_id,
+            url: "/recommendations/" + id,
             contentType: "application/json",
             data: '',
         })
@@ -157,7 +157,7 @@
     // ****************************************
 
     $("#clear-btn").click(function () {
-        $("#recomm_id").val("");
+        $("#id").val("");
         clear_form_data()
     });
 
