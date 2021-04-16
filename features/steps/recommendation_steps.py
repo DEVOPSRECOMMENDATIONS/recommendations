@@ -27,7 +27,7 @@ def step_impl(context):
     context.resp = requests.get(context.base_url + '/recommendations', headers=headers)
     expect(context.resp.status_code).to_equal(200)
     for recommendation in context.resp.json():
-        context.resp = requests.delete(context.base_url + '/recommendations/' + str(recommendation["_id"]), headers=headers)
+        context.resp = requests.delete(context.base_url + '/recommendations/' + str(recommendation["id"]), headers=headers)
         expect(context.resp.status_code).to_equal(204)
     
     # load the database with new recommendation
@@ -37,7 +37,7 @@ def step_impl(context):
             "product_a": row['product_a'],
             "product_b": row['product_b'],
             "recom_type": row['recom_type'],
-            "likes": row['likes']
+            "likes": int(row['likes'])
             }
         payload = json.dumps(data)
         context.resp = requests.post(create_url, data=payload, headers=headers)
@@ -49,6 +49,7 @@ def step_impl(context):
     context.driver.get(context.base_url)
     # Uncomment next line to take a screenshot of the web page
     #context.driver.save_screenshot('home_page.png')
+    
 
 @then('I should see "{message}" in the title')
 def step_impl(context, message):
@@ -60,28 +61,28 @@ def step_impl(context, message):
     error_msg = "I should not see '%s' in '%s'" % (message, context.resp.text)
     ensure(message in context.resp.text, False, error_msg)
 
-@when('I set the "{element_name}" to "{text_string}"')
+@when('I set "{element_name}" to "{text_string}"')
 def step_impl(context, element_name, text_string):
-    element_id = ID_PREFIX + element_name.lower()
+    element_id = element_name.lower()
     element = context.driver.find_element_by_id(element_id)
     element.clear()
     element.send_keys(text_string)
 
 @when('I select "{text}" in the "{element_name}" dropdown')
 def step_impl(context, text, element_name):
-    element_id = ID_PREFIX + element_name.lower()
+    element_id = element_name.lower()
     element = Select(context.driver.find_element_by_id(element_id))
     element.select_by_visible_text(text)
 
 @then('I should see "{text}" in the "{element_name}" dropdown')
 def step_impl(context, text, element_name):
-    element_id = ID_PREFIX + element_name.lower()
+    element_id = element_name.lower()
     element = Select(context.driver.find_element_by_id(element_id))
     expect(element.first_selected_option.text).to_equal(text)
 
 @then('the "{element_name}" field should be empty')
 def step_impl(context, element_name):
-    element_id = ID_PREFIX + element_name.lower()
+    element_id =  element_name.lower()
     element = context.driver.find_element_by_id(element_id)
     expect(element.get_attribute('value')).to_be(u'')
 
@@ -90,8 +91,9 @@ def step_impl(context, element_name):
 ##################################################################
 @when('I copy the "{element_name}" field')
 def step_impl(context, element_name):
-    element_id = ID_PREFIX + element_name.lower()
-    # element = context.driver.find_element_by_id(element_id)
+    #context.driver.save_screenshot('debug.png')
+    element_id = element_name.lower()
+    element = context.driver.find_element_by_id(element_id)
     element = WebDriverWait(context.driver, context.WAIT_SECONDS).until(
         expected_conditions.presence_of_element_located((By.ID, element_id))
     )
@@ -100,8 +102,8 @@ def step_impl(context, element_name):
 
 @when('I paste the "{element_name}" field')
 def step_impl(context, element_name):
-    element_id = ID_PREFIX + element_name.lower()
-    # element = context.driver.find_element_by_id(element_id)
+    element_id = element_name.lower()
+    element = context.driver.find_element_by_id(element_id)
     element = WebDriverWait(context.driver, context.WAIT_SECONDS).until(
         expected_conditions.presence_of_element_located((By.ID, element_id))
     )
@@ -141,8 +143,7 @@ def step_impl(context, name):
 
 @then('I should see the message "{message}"')
 def step_impl(context, message):
-    # element = context.driver.find_element_by_id('flash_message')
-    # expect(element.text).to_contain(message)
+    element = context.driver.find_element_by_id('flash_message')
     found = WebDriverWait(context.driver, context.WAIT_SECONDS).until(
         expected_conditions.text_to_be_present_in_element(
             (By.ID, 'flash_message'),
@@ -160,9 +161,8 @@ def step_impl(context, message):
 
 @then('I should see "{text_string}" in the "{element_name}" field')
 def step_impl(context, text_string, element_name):
-    element_id = ID_PREFIX + element_name.lower()
-    # element = context.driver.find_element_by_id(element_id)
-    # expect(element.get_attribute('value')).to_equal(text_string)
+    element_id = element_name.lower()
+    element = context.driver.find_element_by_id(element_id)
     found = WebDriverWait(context.driver, context.WAIT_SECONDS).until(
         expected_conditions.text_to_be_present_in_element_value(
             (By.ID, element_id),
@@ -173,7 +173,7 @@ def step_impl(context, text_string, element_name):
 
 @when('I change "{element_name}" to "{text_string}"')
 def step_impl(context, element_name, text_string):
-    element_id = ID_PREFIX + element_name.lower()
+    element_id = element_name.lower()
     # element = context.driver.find_element_by_id(element_id)
     element = WebDriverWait(context.driver, context.WAIT_SECONDS).until(
         expected_conditions.presence_of_element_located((By.ID, element_id))
