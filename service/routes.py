@@ -132,7 +132,24 @@ def create_recommendation():
 def list_recommendations():
     """ Returns all of the Recommendations """
     app.logger.info("Request for Recommendation list")
-    recommendations = Recommendation.all()
+    recommendations=[]
+
+    recom_type = request.args.get('recom_type')
+    product_a = request.args.get('product_a')
+    product_b = request.args.get('product_b')
+
+    if recom_type:
+        app.logger.info('Find by category: %s', recom_type)
+        recommendations = Recommendation.find_by_recommendation_type(recom_type)
+    elif product_a:
+        app.logger.info('Find by category: %s', product_a)
+        recommendations = Recommendation.find_by_product_a(product_a)
+    elif product_b:
+        app.logger.info('Find by category: %s', product_b)
+        recommendations = Recommendation.find_by_product_b(product_b)
+    else:
+        app.logger.info('Find all')
+        recommendations = Recommendation.all()
     results = [recommendations.serialize() for recommendations in recommendations]
     return make_response(jsonify(results), status.HTTP_200_OK)
 
