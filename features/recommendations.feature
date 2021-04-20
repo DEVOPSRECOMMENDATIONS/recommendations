@@ -38,3 +38,20 @@ Scenario: Create a Recommendation
     And I should see "Skirts" in the "Product_B" field
     And I should see "U" in the "Recom_Type" field
     And I should see "1" in the "Likes" field
+
+Scenario: List all recommendations
+    When I visit the "Home Page"
+    And I press the "Search" button
+    Then I should see "gloves" in the results
+    And I should see "shoes" in the results
+    And I should see "hats" in the results
+    And I should see "belts" in the results
+
+Scenario: List all recommendation types 
+    When I visit the "Home Page"
+    And I set "Recom_type" to "A"
+    And I press the "Search" button
+    Then I should see "gloves" in the results
+    And I should see "belts" in the results
+    And I should not see "hats" in the results
+    And I should not see "shoes" in the results
