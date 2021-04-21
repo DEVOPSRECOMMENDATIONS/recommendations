@@ -79,3 +79,27 @@ Scenario: Update all recommendations
     And I press the "Search" button
     Then I should see "slippers" in the results
     And I should not see "shoes" in the results
+
+Scenario: Delete a recommendation
+    When I visit the "Home Page"
+    And I press the "Search" button
+    And I copy the "Id" field
+    Then I should see "gloves" in the results
+    And I should see "shoes" in the results
+    And I should see "hats" in the results
+    And I should see "belts" in the results
+    And I should see "gloves" in the "Product_A" field
+    And I should see "socks" in the "Product_B" field
+    And I should see "A" in the "Recom_type" field
+    And I should see "0" in the "Likes" field
+    When I press the "Delete" button
+    Then I should see the message "Recommendation has been Deleted!"
+    And the "Product_A" field should be empty
+    And the "Product_B" field should be empty
+    And the "Recom_Type" field should be empty
+    And the "Likes" field should be empty
+    When I press the "Search" button
+    Then I should not see "gloves" in the results
+    When I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see the message "404 Not Found"
