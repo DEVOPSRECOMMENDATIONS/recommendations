@@ -51,7 +51,7 @@ Scenario: List all recommendation types
     When I visit the "Home Page"
     And I set "Recom_type" to "A"
     And I press the "Search" button
-    Then Start to type your Then step here I should see "gloves" in the results
+    Then I should see "gloves" in the results
     And I should see "belts" in the results
     And I should not see "hats" in the results
     And I should not see "shoes" in the results
