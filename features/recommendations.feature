@@ -40,18 +40,42 @@ Scenario: Create a Recommendation
     And I should see "1" in the "Likes" field
 
 Scenario: List all recommendations
-    When I visit the "Home Page"
-    And I press the "Search" button
-    Then I should see "gloves" in the results
-    And I should see "shoes" in the results
-    And I should see "hats" in the results
-    And I should see "belts" in the results
+    When I visit the "Home Page"
+    And I press the "Search" button
+    Then I should see "gloves" in the results
+    And I should see "shoes" in the results
+    And I should see "hats" in the results
+    And I should see "belts" in the results
 
 Scenario: List all recommendation types 
-    When I visit the "Home Page"
-    And I set "Recom_type" to "A"
-    And I press the "Search" button
-    Then I should see "gloves" in the results
-    And I should see "belts" in the results
-    And I should not see "hats" in the results
-    And I should not see "shoes" in the results
+    When I visit the "Home Page"
+    And I set "Recom_type" to "A"
+    And I press the "Search" button
+    Then Start to type your Then step here I should see "gloves" in the results
+    And I should see "belts" in the results
+    And I should not see "hats" in the results
+    And I should not see "shoes" in the results
+
+Scenario: Update all recommendations
+    When I visit the "Home Page"
+    And I set "Product_A" to "shoes"
+    And I press the "Search" button
+    Then I should see "shoes" in the "Product_A" field
+    And I should see "pants" in the "Product_B" field
+    And I should see "U" in the "Recom_type" field
+    And I should see "2" in the "Likes" field
+    When I change "Product_A" to "slippers"
+    And I press the "Update" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "slippers" in the "Product_A" field
+    And I should see "pants" in the "Product_B" field
+    And I should see "U" in the "Recom_type" field
+    And I should see "2" in the "Likes" field
+    When I press the "Clear" button
+    And I press the "Search" button
+    Then I should see "slippers" in the results
+    And I should not see "shoes" in the results
