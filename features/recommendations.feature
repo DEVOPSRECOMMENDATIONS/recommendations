@@ -103,3 +103,15 @@ Scenario: Delete a recommendation
     When I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see the message "404 Not Found"
+
+Scenario: Read a recommendation
+    When I visit the "Home Page"
+    And I press the "Search" button
+    And I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "gloves" in the "Product_A" field
+    And I should see "socks" in the "Product_B" field
+    And I should see "A" in the "Recom_type" field
+    And I should see "0" in the "Likes" field
