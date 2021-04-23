@@ -101,6 +101,43 @@
     });
 
     // ****************************************
+    // Like a Recommendation
+    // ****************************************
+
+    $("#like-btn").click(function () {
+
+        var recomm_id = $("#id").val();
+        var product_a = $("#product_a").val();
+        var product_b = $("#product_b").val();
+        var recom_type = $("#recom_type").val();
+        var likes = $("#likes").val();
+
+        var data = {
+            "product_a": product_a,
+            "product_b": product_b,
+            "recom_type": recom_type,
+            "likes": likes
+        };
+
+        var ajax = $.ajax({
+                type: "PUT",
+                url: "/recommendations/"+ recomm_id+ "/likes",
+                contentType: "application/json",
+                data: JSON.stringify(data)
+            })
+            
+        ajax.done(function(res){
+            update_form_data(res)
+            flash_message("Success")
+        });
+
+        ajax.fail(function(res){
+            flash_message(res.responseJSON.message)
+        });
+    })
+
+
+    // ****************************************
     // Retrieve a Recommendation
     // ****************************************
 
