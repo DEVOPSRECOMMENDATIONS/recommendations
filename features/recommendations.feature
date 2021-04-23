@@ -115,3 +115,24 @@ Scenario: Read a recommendation
     And I should see "socks" in the "Product_B" field
     And I should see "A" in the "Recom_type" field
     And I should see "0" in the "Likes" field
+
+
+Scenario: Like a recommendations
+    When I visit the "Home Page"
+    And I set "Product_A" to "shoes"
+    And I press the "Search" button
+    Then I should see "shoes" in the "Product_A" field
+    And I should see "pants" in the "Product_B" field
+    And I should see "U" in the "Recom_type" field
+    And I should see "2" in the "Likes" field
+    When I press the "Like" button
+    Then I should see the message "Success"
+    And I should see "3" in the "Likes" field
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    Then I should see "shoes" in the "Product_A" field
+    And I should see "pants" in the "Product_B" field
+    And I should see "U" in the "Recom_type" field
+    And I should see "3" in the "Likes" field

@@ -180,7 +180,7 @@ class TestRecommendationServer(TestCase):
         logging.debug(new_recommendation)
         self.assertEqual(new_recommendation["likes"], 0)
         resp = self.app.put(
-            "/recommendations/{}/like".format(new_recommendation["id"]),
+            "/recommendations/{}/likes".format(new_recommendation["id"]),
             content_type="application/json",
         )
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
