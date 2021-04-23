@@ -216,8 +216,6 @@ def like_recommendation(recommendation_id):
     recommendation = Recommendation.find(recommendation_id)
     if not recommendation:
         abort(status.HTTP_404_NOT_FOUND, "Recommendation with id '{}' was not found.".format(recommendation_id))
-    recommendation.deserialize(request.get_json())
-    recommendation.id = recommendation_id
     recommendation.likes += 1
     recommendation.save()
     return make_response(jsonify(recommendation.serialize()), status.HTTP_200_OK)
