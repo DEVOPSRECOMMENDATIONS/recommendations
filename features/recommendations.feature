@@ -19,24 +19,24 @@ Scenario: The server is running
 
 Scenario: Create a Recommendation
     When I visit the "Home Page"
-    And I set "Product_A" to "Gloves"
-    And I set "Product_B" to "Skirts"
-    And I set "Recom_type" to "U"
+    And I set "Product A" to "Gloves"
+    And I set "Product B" to "Skirts"
+    And I set "Recom type" to "U"
     And I set "Likes" to "1"
     And I press the "Create" button
     Then I should see the message "Success"
     When I copy the "Id" field
     And I press the "Clear" button
     Then the "Id" field should be empty
-    And the "Product_A" field should be empty
-    And the "Product_B" field should be empty
-    And the "Recom_Type" field should be empty
+    And the "Product A" field should be empty
+    And the "Product B" field should be empty
+    And the "Recom type" field should be empty
     And the "Likes" field should be empty
     When I paste the "Id" field
     And I press the "Retrieve" button
-    Then I should see "Gloves" in the "Product_A" field
-    And I should see "Skirts" in the "Product_B" field
-    And I should see "U" in the "Recom_Type" field
+    Then I should see "Gloves" in the "Product A" field
+    And I should see "Skirts" in the "Product B" field
+    And I should see "U" in the "Recom Type" field
     And I should see "1" in the "Likes" field
 
 Scenario: List all recommendations
@@ -49,7 +49,7 @@ Scenario: List all recommendations
 
 Scenario: List all recommendation types 
     When I visit the "Home Page"
-    And I set "Recom_type" to "A"
+    And I set "Recom Type" to "A"
     And I press the "Search" button
     Then I should see "gloves" in the results
     And I should see "belts" in the results
@@ -58,22 +58,22 @@ Scenario: List all recommendation types
 
 Scenario: Update all recommendations
     When I visit the "Home Page"
-    And I set "Product_A" to "shoes"
+    And I set "Product A" to "shoes"
     And I press the "Search" button
-    Then I should see "shoes" in the "Product_A" field
-    And I should see "pants" in the "Product_B" field
+    Then I should see "shoes" in the "Product A" field
+    And I should see "pants" in the "Product B" field
     And I should see "U" in the "Recom_type" field
     And I should see "2" in the "Likes" field
-    When I change "Product_A" to "slippers"
+    When I change "Product A" to "slippers"
     And I press the "Update" button
     Then I should see the message "Success"
     When I copy the "Id" field
     And I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
-    Then I should see "slippers" in the "Product_A" field
-    And I should see "pants" in the "Product_B" field
-    And I should see "U" in the "Recom_type" field
+    Then I should see "slippers" in the "Product A" field
+    And I should see "pants" in the "Product B" field
+    And I should see "U" in the "Recom Type" field
     And I should see "2" in the "Likes" field
     When I press the "Clear" button
     And I press the "Search" button
@@ -88,15 +88,15 @@ Scenario: Delete a recommendation
     And I should see "shoes" in the results
     And I should see "hats" in the results
     And I should see "belts" in the results
-    And I should see "gloves" in the "Product_A" field
-    And I should see "socks" in the "Product_B" field
-    And I should see "A" in the "Recom_type" field
+    And I should see "gloves" in the "Product A" field
+    And I should see "socks" in the "Product B" field
+    And I should see "A" in the "Recom Type" field
     And I should see "0" in the "Likes" field
     When I press the "Delete" button
     Then I should see the message "Recommendation has been Deleted!"
-    And the "Product_A" field should be empty
-    And the "Product_B" field should be empty
-    And the "Recom_Type" field should be empty
+    And the "Product A" field should be empty
+    And the "Product B" field should be empty
+    And the "Recom Type" field should be empty
     And the "Likes" field should be empty
     When I press the "Search" button
     Then I should not see "gloves" in the results
@@ -111,19 +111,19 @@ Scenario: Read a recommendation
     And I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
-    Then I should see "gloves" in the "Product_A" field
-    And I should see "socks" in the "Product_B" field
-    And I should see "A" in the "Recom_type" field
+    Then I should see "gloves" in the "Product A" field
+    And I should see "socks" in the "Product B" field
+    And I should see "A" in the "Recom Type" field
     And I should see "0" in the "Likes" field
 
 
 Scenario: Like a recommendations
     When I visit the "Home Page"
-    And I set "Product_A" to "shoes"
+    And I set "Product A" to "shoes"
     And I press the "Search" button
-    Then I should see "shoes" in the "Product_A" field
-    And I should see "pants" in the "Product_B" field
-    And I should see "U" in the "Recom_type" field
+    Then I should see "shoes" in the "Product A" field
+    And I should see "pants" in the "Product B" field
+    And I should see "U" in the "Recom Type" field
     And I should see "2" in the "Likes" field
     When I press the "Like" button
     Then I should see the message "Success"
@@ -132,7 +132,7 @@ Scenario: Like a recommendations
     And I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
-    Then I should see "shoes" in the "Product_A" field
-    And I should see "pants" in the "Product_B" field
-    And I should see "U" in the "Recom_type" field
+    Then I should see "shoes" in the "Product A" field
+    And I should see "pants" in the "Product B" field
+    And I should see "U" in the "Recom Type" field
     And I should see "3" in the "Likes" field
